@@ -1,0 +1,134 @@
+{
+  "profile": {
+    "name": "Keshav kumar Choudhary",
+    "role": "Software Developer",
+    "headline": "Software developer specializing in AI chatbot integration, agentic AI, and MERN stack products.",
+    "summary": "I build production-ready web applications with React, Node.js, Express, MongoDB, and modern AI integrations. My focus is turning chatbot and agent workflows into reliable product features with clean interfaces and maintainable APIs.",
+    "about": "With 1.5 years of software development experience, I work across frontend, backend, and AI integration layers. I enjoy designing reusable React components, building API-first MERN systems, and connecting LLM-powered chatbots and agentic workflows to practical business use cases.",
+    "availability": "Available for full-stack and AI integration roles",
+    "location": "Ranchi,Jharkhand,India",
+    "email": "keshavchoudhary782@gmail.com",
+    "phone": "+91 7079547668",
+    "resumeLink": "#contact",
+    "contactNote": "Share the problem, product flow, or integration goal. I can help turn it into a clear MERN implementation with thoughtful AI behavior."
+  },
+  "navigation": [
+    { "label": "About", "href": "#about" },
+    { "label": "Skills", "href": "#skills" },
+    { "label": "Experience", "href": "#experience" },
+    { "label": "Projects", "href": "#projects" },
+    { "label": "Contact", "href": "#contact" }
+  ],
+  "socialLinks": [
+    { "label": "LinkedIn", "href": "https://www.linkedin.com/in/keshavchoudhary/" },
+    { "label": "GitHub", "href": "https://github.com/keshavchoudhary7" }
+  ],
+  "stats": [
+    { "value": "1.5+", "label": "Years experience" },
+    { "value": "MERN", "label": "Core stack" },
+    { "value": "AI", "label": "Chatbot and agents" }
+  ],
+  "focusAreas": [
+    {
+      "number": "01",
+      "title": "AI chatbot integration",
+      "description": "Integrating LLM-powered chat experiences with backend APIs, business data, prompts, and practical user flows."
+    },
+    {
+      "number": "02",
+      "title": "Agentic AI workflows",
+      "description": "Designing task-oriented agent flows for automation, tool calling, multi-step reasoning, and assisted operations."
+    },
+    {
+      "number": "03",
+      "title": "MERN applications",
+      "description": "Building responsive React interfaces, REST APIs, authentication-ready backends, and MongoDB data models."
+    }
+  ],
+  "skills": [
+    {
+      "name": "Frontend",
+      "items": ["React.js", "JavaScript", "HTML5", "CSS3", "Tailwind Css", "Material Ui", "Redux", "GSAP", "Swiper.js", "Responsive Design", "Component Architecture", "React Router"]
+    },
+    {
+      "name": "Backend",
+      "items": ["Node.js", "Express.js", "REST APIs", "Authentication", "API Integration", "Server Logic"]
+    },
+    {
+      "name": "Database",
+      "items": ["MongoDB", "Mongoose", "Schema Design", "CRUD Workflows", "Data Validation"]
+    },
+    {
+      "name": "AI Engineering",
+      "items": ["AI Chatbots", "Agentic AI", "Prompt Design", "LLM Integration", "Automation Workflows"]
+    },
+    {
+      "name": "Tools",
+      "items": ["Git", "GitHub", "Postman", "Vite", "NPM", "Deployment Basics", "Azure basics", "MS marketplace", "Capacitor"]
+    }
+  ],
+  "experience": [
+    {
+      "title": "Software Developer",
+      "company": "AI and MERN Stack Projects",
+      "period": "1.5 years",
+      "highlights": [
+        "Built responsive React interfaces using reusable components and data-driven rendering patterns.",
+        "Integrated AI chatbot experiences with backend APIs to support guided conversations and user actions.",
+        "Developed Express.js APIs and MongoDB models for scalable CRUD workflows and application state.",
+        "Worked on agentic AI concepts including structured prompts, tool-style workflows, and multi-step automation."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Amalgamate",
+      "type": "Frontend + AI Features",
+      "description": "Built and shipped a polling platform with AI-generated posts, polling topics, and multi-option questions; focused on reusable UI components, API integration, Redux state management, Firebase auth, and OAuth-based onboarding.",
+      "tech": ["React", "Redux", "Firebase", "OAuth", "AI Chatbot", "Reusable Components", "API Integration", "Frontend Development"],
+      "link": "https://amalgamate.ca/"
+    },
+    {
+      "name": "Virilocity",
+      "type": "AI SaaS Platform",
+      "description": "Built Virilocity, a multi-tenant AI marketing automation platform featuring 39 specialized agents, Claude model routing, responsible AI fairness controls, enterprise SaaS auth/billing, and integrations with HubSpot, Microsoft 365, Stripe, Azure Marketplace, Neon, and MCP.",
+      "tech": ["AI Agents", "Multi-tenant SaaS", "Claude Routing", "Responsible AI", "Drizzle ORM", "PostgreSQL", "Stripe", "HubSpot", "OAuth", "Azure Marketplace", "MCP", "Enterprise Security"],
+      "link": "https://www.virilocity.io/"
+    },
+    {
+      "name": "Hound Heart",
+      "type": "AI Health Analytics",
+      "description": "Developed the frontend for an AI-powered dog wellness analysis platform that processes user-shared data to generate insights, with API integrations and Redux-driven state management for a smooth diagnostic workflow.",
+      "tech": ["React", "Redux", "AI Analysis", "API Integration", "Frontend Development", "User Analytics", "UX Design"],
+      "link": "https://www.houndheartwellness.com"
+    },
+    {
+      "name": "Talent Scope",
+      "type": "Session Management",
+      "description": "Built a movement session management platform with a multi-role login system, Zoom-powered sessions, API integrations, and Redux-based workflow management for smooth admin and learner experiences.",
+      "tech": ["React", "Redux", "Zoom Integration", "Multi-role Auth", "API Integration", "Session Management", "Frontend Development"],
+      "link": "https://urbaneducation.azurewebsites.net/"
+    },
+    {
+      "name": "KEHi",
+      "type": "Mobile AI Receptionist",
+      "description": "Converted the web app into a mobile APK using Capacitor, implemented in-app purchases for iOS and Android, and supported an AI receptionist that answers calls, captures leads, and books appointments 24/7.",
+      "tech": ["Capacitor", "Mobile App Development", "In-App Purchases", "AI Receptionist", "Appointment Scheduling", "Play Store Deployment", "Cross-platform Mobile"],
+      "link": "https://play.google.com/store/apps/details?id=com.kehi.secretary"
+    }
+  ],
+  "services": [
+    {
+      "title": "Chatbot integration",
+      "description": "Add AI assistants to web apps with thoughtful prompts, clean UI states, and backend-connected actions."
+    },
+    {
+      "title": "MERN development",
+      "description": "Build full-stack features using React, Node.js, Express.js, MongoDB, and maintainable component structures."
+    },
+    {
+      "title": "Agent workflows",
+      "description": "Prototype agentic flows for multi-step tasks, automation, research assistance, and internal tools."
+    }
+  ]
+}

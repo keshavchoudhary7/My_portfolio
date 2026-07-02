@@ -1,0 +1,14 @@
+Keshavkumar Choudhary - CV Placeholder
+
+Please replace this file with your actual CV PDF.
+
+Name: Keshavkumar Choudhary
+Role: Software Developer
+Stack: MERN + AI Integration
+
+To use the Download CV button:
+1. Export your CV as a PDF
+2. Rename it to: keshav_cv.pdf
+3. Place it in the /public folder of this project
+
+The download button in the portfolio links to: /keshav_cv.pdf
