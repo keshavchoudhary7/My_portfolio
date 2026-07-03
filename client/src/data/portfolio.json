@@ -1,0 +1,325 @@
+{
+    "profile":  {
+                    "name":  "Keshav kumar Choudhary",
+                    "role":  "Software Developer",
+                    "headline":  "Software developer specializing in AI chatbot integration, agentic AI, and MERN stack products.",
+                    "summary":  "I build production-ready web applications with React, Node.js, Express, MongoDB, and modern AI integrations. My focus is turning chatbot and agent workflows into reliable product features with clean interfaces and maintainable APIs.",
+                    "about":  "With 1.5 years of software development experience, I work across frontend, backend, and AI integration layers. I enjoy designing reusable React components, building API-first MERN systems, and connecting LLM-powered chatbots and agentic workflows to practical business use cases.",
+                    "availability":  "Available for full-stack and AI integration roles",
+                    "location":  "Ranchi,Jharkhand,India",
+                    "email":  "keshavchoudhary782@gmail.com",
+                    "phone":  "+91 7079547668",
+                    "resumeLink":  "#contact",
+                    "contactNote":  "Share the problem, product flow, or integration goal. I can help turn it into a clear MERN implementation with thoughtful AI behavior."
+                },
+    "navigation":  [
+                       {
+                           "label":  "About",
+                           "href":  "#about"
+                       },
+                       {
+                           "label":  "Skills",
+                           "href":  "#skills"
+                       },
+                       {
+                           "label":  "Experience",
+                           "href":  "#experience"
+                       },
+                       {
+                           "label":  "Projects",
+                           "href":  "#projects"
+                       },
+                       {
+                           "label":  "Contact",
+                           "href":  "#contact"
+                       }
+                   ],
+    "socialLinks":  [
+                        {
+                            "label":  "LinkedIn",
+                            "href":  "https://www.linkedin.com/in/keshavchoudhary/"
+                        },
+                        {
+                            "label":  "GitHub",
+                            "href":  "https://github.com/keshavchoudhary7"
+                        }
+                    ],
+    "stats":  [
+                  {
+                      "value":  "1.5+",
+                      "label":  "Years experience"
+                  },
+                  {
+                      "value":  "MERN",
+                      "label":  "Core stack"
+                  },
+                  {
+                      "value":  "AI",
+                      "label":  "Chatbot and agents"
+                  }
+              ],
+    "focusAreas":  [
+                       {
+                           "number":  "01",
+                           "title":  "AI chatbot integration",
+                           "description":  "Integrating LLM-powered chat experiences with backend APIs, business data, prompts, and practical user flows."
+                       },
+                       {
+                           "number":  "02",
+                           "title":  "Agentic AI workflows",
+                           "description":  "Designing task-oriented agent flows for automation, tool calling, multi-step reasoning, and assisted operations."
+                       },
+                       {
+                           "number":  "03",
+                           "title":  "MERN applications",
+                           "description":  "Building responsive React interfaces, REST APIs, authentication-ready backends, and MongoDB data models."
+                       }
+                   ],
+    "skills":  [
+                   {
+                       "name":  "Frontend",
+                       "items":  [
+                                     "React.js",
+                                     "JavaScript",
+                                     "HTML5",
+                                     "CSS3",
+                                     "Tailwind Css",
+                                     "Material Ui",
+                                     "Redux",
+                                     "GSAP",
+                                     "Swiper.js",
+                                     "Responsive Design",
+                                     "Component Architecture",
+                                     "React Router"
+                                 ]
+                   },
+                   {
+                       "name":  "Backend",
+                       "items":  [
+                                     "Node.js",
+                                     "Express.js",
+                                     "REST APIs",
+                                     "Authentication",
+                                     "API Integration",
+                                     "Server Logic"
+                                 ]
+                   },
+                   {
+                       "name":  "Database",
+                       "items":  [
+                                     "MongoDB",
+                                     "Mongoose",
+                                     "Schema Design",
+                                     "CRUD Workflows",
+                                     "Data Validation"
+                                 ]
+                   },
+                   {
+                       "name":  "AI Engineering",
+                       "items":  [
+                                     "AI Chatbots",
+                                     "Agentic AI",
+                                     "Prompt Design",
+                                     "LLM Integration",
+                                     "Automation Workflows"
+                                 ]
+                   },
+                   {
+                       "name":  "Tools",
+                       "items":  [
+                                     "Git",
+                                     "GitHub",
+                                     "Postman",
+                                     "Vite",
+                                     "NPM",
+                                     "Deployment Basics",
+                                     "Azure basics",
+                                     "MS marketplace",
+                                     "Capacitor"
+                                 ]
+                   }
+               ],
+    "experience":  [
+                       {
+                           "title":  "Software Engineer",
+                           "company":  "Csharptek (Cloudgarner Solutions Pvt Ltd)",
+                           "period":  "Feb 2025 – Present",
+                           "highlights":  [
+                                              "Developed full-stack solutions using React, Node.js, and cloud APIs to support enterprise customer workflows.",
+                                              "Delivered production-ready features with polished UI, responsive design, and performance optimizations.",
+                                              "Collaborated across product, QA, and backend teams to ship releases on schedule and resolve integration issues.",
+                                              "Mentored junior developers on component architecture, reusable patterns, and clean code practices."
+                                          ]
+                       },
+                       {
+                           "title":  "Software Developer Intern",
+                           "company":  "Hashedbit Innovations Pvt Ltd",
+                           "period":  "Apr 2024 – Oct 2024",
+                           "highlights":  [
+                                              "Built frontend features and API integrations for SaaS products using React and modern JavaScript.",
+                                              "Contributed to product design reviews, code quality improvements, and usability refinements.",
+                                              "Worked with senior developers to learn scalable architecture patterns and deployment workflows.",
+                                              "Supported customer-facing demos and helped troubleshoot issues during staging and launch." 
+                                          ]
+                       }
+                   ],
+    "projects":  [
+                     {
+                         "name":  "Amalgamate",
+                         "type":  "Frontend + AI Features",
+                         "description":  "Built and shipped a polling platform with AI-generated posts, polling topics, and multi-option questions; focused on reusable UI components, API integration, Redux state management, Firebase auth, and OAuth-based onboarding.",
+                         "tech":  [
+                                      "React",
+                                      "Redux",
+                                      "Firebase",
+                                      "OAuth",
+                                      "AI Chatbot",
+                                      "Reusable Components",
+                                      "API Integration",
+                                      "Frontend Development"
+                                  ],
+                         "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80",
+                         "link":  "https://amalgamate.ca/"
+                     },
+                     {
+                         "name":  "ATS Analyzer",
+                         "type":  "AI Resume Optimization",
+                         "description":  "Built an AI-powered ATS score analyzer that compares a CV against a job description, uses Gemini API intelligence to evaluate role alignment, highlights keyword gaps, and suggests practical resume improvements to improve shortlisting chances.",
+                         "tech":  [
+                                      "Gemini API",
+                                      "AI Resume Review",
+                                      "ATS Scoring",
+                                      "Job Description Analysis",
+                                      "Keyword Matching",
+                                      "CV Optimization",
+                                      "React",
+                                      "Prompt Engineering",
+                                      "Netlify"
+                                  ],
+                         "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+                         "link":  "https://ats-analyser.netlify.app/"
+                     },
+                     {
+                         "name":  "Virilocity",
+                         "type":  "AI SaaS Platform",
+                         "description":  "Built Virilocity, a multi-tenant AI marketing automation platform featuring 39 specialized agents, Claude model routing, responsible AI fairness controls, enterprise SaaS auth/billing, and integrations with HubSpot, Microsoft 365, Stripe, Azure Marketplace, Neon, and MCP.",
+                         "tech":  [
+                                      "AI Agents",
+                                      "Multi-tenant SaaS",
+                                      "Claude Routing",
+                                      "Responsible AI",
+                                      "Drizzle ORM",
+                                      "PostgreSQL",
+                                      "Stripe",
+                                      "HubSpot",
+                                      "OAuth",
+                                      "Azure Marketplace",
+                                      "MCP",
+                                      "Enterprise Security"
+                                  ],
+                         "link":  "https://www.virilocity.io/"
+                     },
+                     {
+                         "name":  "Dwarpe",
+                         "type":  "Service Marketplace",
+                         "description":  "Built a complete service-provider web application for booking home and daily services such as cleaning, driving, cooking, electrical work, and plumbing, with customer flows, service management, and an admin panel for operational control.",
+                         "tech":  [
+                                      "MERN Stack",
+                                      "React",
+                                      "Node.js",
+                                      "Express.js",
+                                      "MongoDB",
+                                      "Admin Panel",
+                                      "Service Booking",
+                                      "Role-Based Workflows",
+                                      "REST APIs",
+                                      "Full-Stack Development"
+                                  ],
+                         "image": "https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=900&q=80",
+                         "link":  "https://dwarpe.netlify.app/"
+                     },
+                     {
+                         "name":  "Hound Heart",
+                         "type":  "AI Health Analytics",
+                         "description":  "Developed the frontend for an AI-powered dog wellness analysis platform that processes user-shared data to generate insights, with API integrations and Redux-driven state management for a smooth diagnostic workflow.",
+                         "tech":  [
+                                      "React",
+                                      "Redux",
+                                      "AI Analysis",
+                                      "API Integration",
+                                      "Frontend Development",
+                                      "User Analytics",
+                                      "UX Design"
+                                  ],
+                         "image": "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=900&q=80",
+                         "link":  "https://www.houndheartwellness.com"
+                     },
+                     {
+                         "name":  "Talent Scope",
+                         "type":  "Session Management",
+                         "description":  "Built a movement session management platform with a multi-role login system, Zoom-powered sessions, API integrations, and Redux-based workflow management for smooth admin and learner experiences.",
+                         "tech":  [
+                                      "React",
+                                      "Redux",
+                                      "Zoom Integration",
+                                      "Multi-role Auth",
+                                      "API Integration",
+                                      "Session Management",
+                                      "Frontend Development"
+                                  ],
+                         "image": "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=900&q=80",
+                         "link":  "https://urbaneducation.azurewebsites.net/"
+                     },
+                     {
+                         "name":  "KEHi",
+                         "type":  "Mobile AI Receptionist",
+                         "description":  "Converted the web app into a mobile APK using Capacitor, implemented in-app purchases for iOS and Android, and supported an AI receptionist that answers calls, captures leads, and books appointments 24/7.",
+                         "tech":  [
+                                      "Capacitor",
+                                      "Mobile App Development",
+                                      "In-App Purchases",
+                                      "AI Receptionist",
+                                      "Appointment Scheduling",
+                                      "Play Store Deployment",
+                                      "Cross-platform Mobile"
+                                  ],
+                         "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
+                         "link":  "https://play.google.com/store/apps/details?id=com.kehi.secretary"
+                     },
+                         {
+                             "name": "TaskHaven",
+                             "type": "Learning Project",
+                             "description": "To-do web app developed using React.js.",
+                             "tech": ["React", "Task Management"],
+                             "link": "https://taskhaven.netlify.app/"
+                         },
+                         {
+                             "name": "Know Your City Climate",
+                             "type": "Learning Project",
+                             "description": "Climate/weather web app built with HTML, Tailwind CSS and JavaScript; integrated Weather API for real-time data.",
+                             "tech": ["HTML", "Tailwind CSS", "JavaScript", "Weather API"],
+                             "link": "https://knowyourcityclimate.netlify.app/"
+                         },
+                         {
+                             "name": "Caraaa",
+                             "type": "Learning Project",
+                             "description": "E-commerce platform built with HTML, CSS and JavaScript.",
+                             "tech": ["HTML", "CSS", "JavaScript"],
+                             "link": "https://caraaa.netlify.app/"
+                         }
+                     ],
+        "services":  [
+                     {
+                         "title":  "Chatbot integration",
+                         "description":  "Add AI assistants to web apps with thoughtful prompts, clean UI states, and backend-connected actions."
+                     },
+                     {
+                         "title":  "MERN development",
+                         "description":  "Build full-stack features using React, Node.js, Express.js, MongoDB, and maintainable component structures."
+                     },
+                     {
+                         "title":  "Agent workflows",
+                         "description":  "Prototype agentic flows for multi-step tasks, automation, research assistance, and internal tools."
+                     }
+                 ]
+}

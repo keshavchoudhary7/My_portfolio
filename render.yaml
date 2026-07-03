@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: portfolio-api
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: TO_EMAIL
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false

@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import { Autoplay, Keyboard, Pagination } from 'swiper/modules'
+import { FreeMode, Keyboard, Mousewheel, Navigation as NavigationModule, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import 'swiper/css/navigation'
+import 'swiper/css/free-mode'
 import data from './data/portfolio.json'
 import './App.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/* ──────────────────────────────────────────────────────────────
-   LIGHTNING CANVAS – animated electric bolts on the background
-   ────────────────────────────────────────────────────────────── */
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || ''
+
 function LightningCanvas() {
   const canvasRef = useRef(null)
 
@@ -28,9 +29,6 @@ function LightningCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    /**
-     * Recursive jagged lightning segment
-     */
     function drawBolt(x1, y1, x2, y2, depth, alpha) {
       if (depth <= 0) {
         ctx.beginPath()
@@ -98,9 +96,154 @@ function LightningCanvas() {
   return <canvas ref={canvasRef} className="lightning-canvas" aria-hidden="true" />
 }
 
-/* ──────────────────────────────────────────────────────────────
-   NAVIGATION
-   ────────────────────────────────────────────────────────────── */
+function CursorParticles() {
+  const canvasRef = useRef(null)
+  const pointerRef = useRef({ x: -100, y: -100, tx: -100, ty: -100, active: false })
+  const particlesRef = useRef([])
+
+  useEffect(() => {
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!isFinePointer || reduceMotion) return
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    let frameId
+    let lastEmit = 0
+
+    const resize = () => {
+      canvas.width = Math.floor(window.innerWidth * dpr)
+      canvas.height = Math.floor(window.innerHeight * dpr)
+      canvas.style.width = `${window.innerWidth}px`
+      canvas.style.height = `${window.innerHeight}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+
+    const emitParticle = (x, y) => {
+      particlesRef.current.push({
+        x: x - 3 + Math.random() * 6,
+        y: y - 3 + Math.random() * 6,
+        vx: -0.35 + Math.random() * 0.7,
+        vy: -0.35 + Math.random() * 0.7,
+        life: 0.98,
+        size: 0.8 + Math.random() * 2.2,
+        hue: Math.random() > 0.78 ? 'white' : 'accent',
+      })
+
+      if (particlesRef.current.length > 60) {
+        particlesRef.current.splice(0, particlesRef.current.length - 60)
+      }
+    }
+
+    const onPointerMove = (event) => {
+      const pointer = pointerRef.current
+      pointer.tx = event.clientX
+      pointer.ty = event.clientY
+      pointer.active = true
+
+      const now = performance.now()
+      if (now - lastEmit > 20) {
+        emitParticle(event.clientX, event.clientY)
+        lastEmit = now
+      }
+    }
+
+    const onPointerLeave = () => {
+      pointerRef.current.active = false
+    }
+
+    const drawCursor = (x, y, active) => {
+      // small, sleek cursor with subtle glow and ring
+      ctx.save()
+      ctx.translate(x, y)
+      ctx.rotate(-0.35)
+
+      // main chevron / pointer (smaller)
+      ctx.beginPath()
+      ctx.moveTo(0, -6)
+      ctx.lineTo(6, 6)
+      ctx.lineTo(2, 6)
+      ctx.lineTo(0, 2)
+      ctx.closePath()
+
+      ctx.fillStyle = 'rgba(18,18,18,0.95)'
+      ctx.strokeStyle = active ? 'rgba(255, 68, 68, 0.95)' : 'rgba(255,255,255,0.7)'
+      ctx.lineWidth = 1
+      ctx.shadowColor = 'rgba(255, 68, 68, 0.14)'
+      ctx.shadowBlur = active ? 12 : 6
+      ctx.fill()
+      ctx.stroke()
+
+      ctx.restore()
+
+      // soft accent ring
+      ctx.beginPath()
+      ctx.arc(x, y, active ? 12 : 9, 0, Math.PI * 2)
+      ctx.strokeStyle = active ? 'rgba(255,68,68,0.12)' : 'rgba(255,255,255,0.06)'
+      ctx.lineWidth = active ? 2.5 : 1.2
+      ctx.stroke()
+
+      // inner subtle glow
+      const grad = ctx.createRadialGradient(x, y, 0, x, y, active ? 22 : 16)
+      grad.addColorStop(0, 'rgba(255,68,68,0.06)')
+      grad.addColorStop(1, 'rgba(0,0,0,0)')
+      ctx.fillStyle = grad
+      ctx.beginPath()
+      ctx.arc(x, y, active ? 22 : 16, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    const draw = () => {
+      const pointer = pointerRef.current
+      // smoother, slightly slower follow for a premium feel
+      pointer.x += (pointer.tx - pointer.x) * 0.16
+      pointer.y += (pointer.ty - pointer.y) * 0.16
+
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+
+      particlesRef.current = particlesRef.current.filter((particle) => particle.life > 0.03)
+      particlesRef.current.forEach((particle) => {
+        particle.x += particle.vx
+        particle.y += particle.vy
+        particle.vy += 0.012
+        particle.life *= 0.92
+
+        ctx.beginPath()
+        ctx.arc(particle.x, particle.y, particle.size * particle.life, 0, Math.PI * 2)
+        if (particle.hue === 'white') {
+          ctx.fillStyle = `rgba(255, 255, 255, ${0.42 * particle.life})`
+          ctx.shadowColor = 'rgba(255,255,255,0.36)'
+        } else {
+          ctx.fillStyle = `rgba(255, 68, 68, ${0.62 * particle.life})`
+          ctx.shadowColor = 'rgba(255,68,68,0.5)'
+        }
+        ctx.shadowBlur = 8 * particle.life
+        ctx.fill()
+      })
+
+      if (pointer.active) drawCursor(pointer.x, pointer.y, true)
+      frameId = requestAnimationFrame(draw)
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
+    window.addEventListener('pointermove', onPointerMove, { passive: true })
+    window.addEventListener('pointerleave', onPointerLeave)
+    frameId = requestAnimationFrame(draw)
+
+    return () => {
+      cancelAnimationFrame(frameId)
+      window.removeEventListener('resize', resize)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerleave', onPointerLeave)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="cursor-particles" aria-hidden="true" />
+}
 function Navigation({ links }) {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive]     = useState('#home')
@@ -128,7 +271,7 @@ function Navigation({ links }) {
 
   return (
     <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
-      <a className="brand" href="#home" aria-label="KC – Go to top">KC</a>
+      <a className="brand" href="#home" aria-label="KC - Go to top">KC</a>
       <nav aria-label="Primary navigation">
         {links.map((link) => (
           <a
@@ -136,24 +279,20 @@ function Navigation({ links }) {
             key={link.label}
             className={active === link.href ? 'active' : ''}
           >
-            {link.label}
+                {link.label}
           </a>
         ))}
         <a href="#contact" className="nav-cta">
-          ⚡ Hire me
+          Hire me
         </a>
       </nav>
     </header>
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   HERO
-   ────────────────────────────────────────────────────────────── */
 function Hero({ profile, stats }) {
   return (
     <section className="hero-section" id="home">
-      {/* ── Left: copy ── */}
       <div className="hero-copy hero-anim">
         <div className="hero-badge">
           <span className="dot" />
@@ -171,10 +310,10 @@ function Hero({ profile, stats }) {
 
         <div className="hero-actions">
           <a href="#contact" className="btn-primary">
-            ⚡ Let's build together
+            Let's build together
           </a>
           <a href="#projects" className="btn-secondary">
-            View my work →
+            View my work
           </a>
           <a
             href="/keshav_cv.pdf"
@@ -200,8 +339,6 @@ function Hero({ profile, stats }) {
           ))}
         </div>
       </div>
-
-      {/* ── Right: portrait ── */}
       <div className="hero-visual hero-anim">
         <div className="hero-ring" aria-hidden="true" />
         <div className="hero-ring hero-ring-2" aria-hidden="true" />
@@ -211,30 +348,25 @@ function Hero({ profile, stats }) {
             src="/keshav_profile_pic.png"
             alt={`Portrait of ${profile.name}`}
           />
-          {/* Name overlay on portrait */}
           <div className="hero-name-card">
             <span>{profile.role}</span>
             <strong>{profile.name}</strong>
-            <em>📍 {profile.location}</em>
+            <em>Based in {profile.location}</em>
           </div>
         </div>
-
-        {/* Floating badge chips */}
-        <div className="hero-badge-float float-badge-1">
-          <span className="badge-icon">🤖</span>
+        {/* <div className="hero-badge-float float-badge-1">
+          <span className="badge-icon">AI</span>
           AI Integration
-        </div>
-        <div className="hero-badge-float float-badge-2">
-          <span className="badge-icon">⚡</span>
+        </div> */}
+        {/* <div className="hero-badge-float float-badge-2">
+          <span className="badge-icon">JS</span>
           MERN Stack
         </div>
         <div className="hero-badge-float float-badge-3">
-          <span className="badge-icon">🚀</span>
+          <span className="badge-icon">AG</span>
           Agentic AI
-        </div>
+        </div> */}
       </div>
-
-      {/* Scroll cue */}
       <div className="hero-scroll" aria-hidden="true">
         <div className="scroll-line" />
         <span>Scroll</span>
@@ -243,9 +375,6 @@ function Hero({ profile, stats }) {
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   ABOUT
-   ────────────────────────────────────────────────────────────── */
 function About({ profile, focusAreas }) {
   return (
     <section className="page-section" id="about">
@@ -272,9 +401,6 @@ function About({ profile, focusAreas }) {
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   SKILLS
-   ────────────────────────────────────────────────────────────── */
 function Skills({ groups }) {
   return (
     <section className="page-section" id="skills">
@@ -303,18 +429,15 @@ function Skills({ groups }) {
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   EXPERIENCE
-   ────────────────────────────────────────────────────────────── */
 function Experience({ roles }) {
   return (
     <section className="page-section" id="experience">
       <div className="section-header reveal">
         <span className="section-eyebrow">Experience</span>
-        <h2>A developer who moves from idea to launch</h2>
+        <h2>Professional experience</h2>
         <p>
-          1.5 years of hands-on experience turning product requirements into
-          clean interfaces, scalable APIs, and conversational AI features.
+          Experience building enterprise and startup software with polished front-end interfaces,
+          reliable backend services, and data-driven product workflows.
         </p>
       </div>
 
@@ -336,71 +459,220 @@ function Experience({ roles }) {
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   PROJECTS
-   ────────────────────────────────────────────────────────────── */
 function Projects({ projects }) {
+  const [expandedProject, setExpandedProject] = useState(null)
+
+  const toggleExpanded = (projectName) => {
+    setExpandedProject((current) => (current === projectName ? null : projectName))
+  }
+
+  const truncateDescription = (description) =>
+    description.length > 140 ? `${description.slice(0, 140)}...` : description
+
   return (
     <section className="page-section project-section" id="projects">
       <div className="section-header reveal">
         <span className="section-eyebrow">Selected work</span>
         <h2>Product-ready builds and AI experiments</h2>
         <p>
-          A curated view of the systems I have helped shape — from engaging
+          A curated view of the systems I have helped shape - from engaging
           user experiences to workflow automation.
         </p>
       </div>
 
+      <div className="project-carousel-tools reveal" aria-label="Project carousel controls">
+        <span>Drag, swipe, use trackpad, or jump with controls</span>
+        <div className="project-nav-buttons">
+          <button type="button" className="project-nav-btn project-prev" aria-label="Previous project">
+            Prev
+          </button>
+          <button type="button" className="project-nav-btn project-next" aria-label="Next project">
+            Next
+          </button>
+        </div>
+      </div>
+
       <Swiper
         className="project-swiper reveal"
-        modules={[Autoplay, Keyboard, Pagination]}
-        autoplay={{ delay: 3800, disableOnInteraction: false }}
+        modules={[FreeMode, Keyboard, Mousewheel, NavigationModule, Pagination]}
         keyboard={{ enabled: true }}
         pagination={{ clickable: true, dynamicBullets: true }}
+        navigation={{ nextEl: '.project-next', prevEl: '.project-prev' }}
+        mousewheel={{ forceToAxis: true, sensitivity: 0.75, releaseOnEdges: true }}
+        freeMode={{ enabled: true, momentum: true, momentumRatio: 0.65, sticky: false }}
+        grabCursor
+        simulateTouch
+        touchRatio={1.25}
+        touchReleaseOnEdges
+        threshold={4}
+        speed={620}
+        resistanceRatio={0.72}
+        noSwipingSelector="a, button"
         spaceBetween={20}
         breakpoints={{
-          0:    { slidesPerView: 1 },
-          680:  { slidesPerView: 2 },
-          1080: { slidesPerView: 3 },
+          0:    { slidesPerView: 1.04, spaceBetween: 14 },
+          680:  { slidesPerView: 2.05, spaceBetween: 18 },
+          1080: { slidesPerView: 3, spaceBetween: 20 },
         }}
       >
-        {projects.map((project) => (
-          <SwiperSlide key={project.name}>
-            <article className="project-card">
-              <div>
-                <span className="project-type">{project.type}</span>
-                <h3>{project.name}</h3>
-                <p>{project.description}</p>
-              </div>
-              <div className="project-footer">
-                {project.link && (
-                  <a
-                    className="btn-secondary project-link"
-                    href={project.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Visit Project ↗
-                  </a>
-                )}
-                <div className="tag-list">
-                  {project.tech.map((t) => (
-                    <span className="tag" key={t}>{t}</span>
-                  ))}
+        {projects.map((project) => {
+          const isExpanded = expandedProject === project.name
+          const description = isExpanded
+            ? project.description
+            : truncateDescription(project.description)
+
+          return (
+            <SwiperSlide key={project.name}>
+              <article
+                className="project-card"
+                style={project.image ? {
+                  backgroundImage: `linear-gradient(rgba(4,11,17,0.88), rgba(4,11,17,0.74)), url(${project.image})`
+                } : undefined}
+              >
+                <div>
+                  <span className="project-type">{project.type}</span>
+                  <h3>{project.name}</h3>
+                  <p>{description}</p>
                 </div>
-              </div>
-            </article>
-          </SwiperSlide>
-        ))}
+                <div className="project-footer">
+                  <div className="project-footer-row">
+                    {project.link && (
+                      <a
+                        className="btn-secondary project-link"
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Visit Project
+                      </a>
+                    )}
+                    {project.description.length > 140 && (
+                      <button
+                        type="button"
+                        className="project-toggle"
+                        onClick={() => toggleExpanded(project.name)}
+                        aria-expanded={isExpanded}
+                      >
+                        {isExpanded ? 'See less' : 'See more'}
+                      </button>
+                    )}
+                  </div>
+                  <div className="tag-list">
+                    {project.tech.map((t) => (
+                      <span className="tag" key={t}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </SwiperSlide>
+          )
+        })}
       </Swiper>
     </section>
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   SERVICES
-   ────────────────────────────────────────────────────────────── */
-const SERVICE_ICONS = ['🤖', '⚛️', '🔮']
+function LearningProjects({ learningProjects }) {
+  const [expandedProject, setExpandedProject] = useState(null)
+
+  const toggleExpanded = (projectName) => {
+    setExpandedProject((current) => (current === projectName ? null : projectName))
+  }
+
+  const truncateDescription = (description) =>
+    description.length > 140 ? `${description.slice(0, 140)}...` : description
+
+  if (!learningProjects || learningProjects.length === 0) return null
+
+  return (
+    <section className="page-section project-section" id="learning-projects">
+      <div className="section-header reveal">
+        <span className="section-eyebrow">Learning projects</span>
+        <h2>Small builds and experiments</h2>
+        <p>
+          Short projects I built while learning new parts of the stack. Links go to live demos.
+        </p>
+      </div>
+
+      <div className="project-carousel-tools reveal" aria-label="Learning project controls">
+        <span>Click a card to visit the demo</span>
+      </div>
+
+      <Swiper
+        className="project-swiper reveal"
+        modules={[FreeMode, Keyboard, Mousewheel, NavigationModule, Pagination]}
+        keyboard={{ enabled: true }}
+        pagination={{ clickable: true, dynamicBullets: true }}
+        mousewheel={{ forceToAxis: true, sensitivity: 0.75, releaseOnEdges: true }}
+        freeMode={{ enabled: true, momentum: true, momentumRatio: 0.65, sticky: false }}
+        grabCursor
+        simulateTouch
+        touchRatio={1.25}
+        touchReleaseOnEdges
+        threshold={4}
+        speed={620}
+        resistanceRatio={0.72}
+        noSwipingSelector="a, button"
+        spaceBetween={20}
+        breakpoints={{
+          0:    { slidesPerView: 1.04, spaceBetween: 14 },
+          680:  { slidesPerView: 2.05, spaceBetween: 18 },
+          1080: { slidesPerView: 3, spaceBetween: 20 },
+        }}
+      >
+        {learningProjects.map((project) => {
+          const isExpanded = expandedProject === project.name
+          const description = isExpanded
+            ? project.description
+            : truncateDescription(project.description)
+
+          return (
+            <SwiperSlide key={project.name}>
+              <article className="project-card">
+                <div>
+                  <span className="project-type">Learning</span>
+                  <h3>{project.name}</h3>
+                  <p>{description}</p>
+                </div>
+                <div className="project-footer">
+                  <div className="project-footer-row">
+                    {project.link && (
+                      <a
+                        className="btn-secondary project-link"
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Visit Project
+                      </a>
+                    )}
+                    {project.description.length > 140 && (
+                      <button
+                        type="button"
+                        className="project-toggle"
+                        onClick={() => toggleExpanded(project.name)}
+                        aria-expanded={isExpanded}
+                      >
+                        {isExpanded ? 'See less' : 'See more'}
+                      </button>
+                    )}
+                  </div>
+                  <div className="tag-list">
+                    {(project.tech || []).map((t) => (
+                      <span className="tag" key={t}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            </SwiperSlide>
+          )
+        })}
+      </Swiper>
+    </section>
+  )
+}
+
+const SERVICE_ICONS = ['AI', 'FS', 'AG']
 
 function Services({ services }) {
   return (
@@ -427,9 +699,6 @@ function Services({ services }) {
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   CONTACT
-   ────────────────────────────────────────────────────────────── */
 function Contact({ profile, links }) {
   const [form, setForm]       = useState({ name: '', email: '', message: '' })
   const [status, setStatus]   = useState('idle') // idle | sending | sent | error
@@ -460,7 +729,7 @@ function Contact({ profile, links }) {
     setStatus('sending')
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -489,7 +758,6 @@ function Contact({ profile, links }) {
 
   return (
     <section className="contact-outer reveal" id="contact">
-      {/* ── Top CTA banner ── */}
       <div className="contact-section">
         <div className="contact-inner">
           <div>
@@ -499,7 +767,7 @@ function Contact({ profile, links }) {
           </div>
           <div className="contact-actions">
             <a className="btn-primary" href={`mailto:${profile.email}`}>
-              ✉️ {profile.email}
+              {profile.email}
             </a>
             {links.map((link) => (
               <a
@@ -509,7 +777,7 @@ function Contact({ profile, links }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                {link.label} ↗
+                {link.label}
               </a>
             ))}
             <a
@@ -527,18 +795,16 @@ function Contact({ profile, links }) {
           </div>
         </div>
       </div>
-
-      {/* ── Message form ── */}
       <div className="contact-form-wrap">
         <div className="contact-form-header">
           <span className="section-eyebrow">Send a message</span>
-          <h3>Drop me a line — I read every message</h3>
+          <h3>Drop me a line - I read every message</h3>
           <p>Have a project idea, a question, or just want to say hi? Fill in the form and I'll get back to you within 24 hours.</p>
         </div>
 
         {status === 'sent' ? (
           <div className="form-success" role="alert">
-            <div className="form-success-icon">⚡</div>
+            <div className="form-success-icon">OK</div>
             <h4>Message sent!</h4>
             <p>Thanks for reaching out, {form.name || 'there'}. I'll reply within 24 hours.</p>
             <button className="btn-primary" onClick={() => setStatus('idle')} style={{ marginTop: 16 }}>
@@ -615,9 +881,9 @@ function Contact({ profile, links }) {
               disabled={status === 'sending'}
             >
               {status === 'sending' ? (
-                <><span className="spinner" aria-hidden="true" /> Sending…</>
+                <><span className="spinner" aria-hidden="true" /> Sending...</>
               ) : (
-                <>⚡ Send Message</>
+                <>Send Message</>
               )}
             </button>
           </form>
@@ -627,14 +893,10 @@ function Contact({ profile, links }) {
   )
 }
 
-/* ──────────────────────────────────────────────────────────────
-   ROOT APP
-   ────────────────────────────────────────────────────────────── */
 function App() {
   const appRef = useRef(null)
 
-  /* ── GSAP animations ── */
-  useEffect(() => {
+    useEffect(() => {
     const ctx = gsap.context(() => {
       // Header entrance
       gsap.from('.site-header', {
@@ -779,6 +1041,7 @@ function App() {
   return (
     <div className="app-shell" ref={appRef}>
       <LightningCanvas />
+      <CursorParticles />
       <Navigation links={data.navigation} />
       <main>
         <Hero   profile={data.profile} stats={data.stats} />
@@ -787,15 +1050,18 @@ function App() {
         <Skills groups={data.skills} />
         <Experience roles={data.experience} />
         <Projects   projects={data.projects} />
+        <LearningProjects learningProjects={data.learningProjects} />
         <Services   services={data.services} />
         <Contact    profile={data.profile} links={data.socialLinks} />
       </main>
       <footer>
-        <p>© 2024 <span>Keshavkumar Choudhary</span>. Built with ⚡ and precision.</p>
-        <p>MERN Stack · AI Integration · Agentic AI</p>
+        <p>Copyright 2024 <span>Keshav kumar Choudhary</span>. Built with care and precision.</p>
+        <p>MERN Stack | AI Integration | Agentic AI</p>
       </footer>
     </div>
   )
 }
 
 export default App
+
+
