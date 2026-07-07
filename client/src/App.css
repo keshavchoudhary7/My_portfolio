@@ -1604,8 +1604,9 @@ footer span {
 }
 
 .field-error::before {
-  content: 'ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ';
-  font-size: 11px;
+  /* use a simple bullet to avoid encoding issues in builds */
+  content: '•';
+  font-size: 14px;
 }
 
 .char-count {

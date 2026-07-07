@@ -703,6 +703,7 @@ function Contact({ profile, links }) {
   const [form, setForm]       = useState({ name: '', email: '', message: '' })
   const [status, setStatus]   = useState('idle') // idle | sending | sent | error
   const [touched, setTouched] = useState({})
+  const [submitError, setSubmitError] = useState('')
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -727,6 +728,7 @@ function Contact({ profile, links }) {
     if (!isValid) return
 
     setStatus('sending')
+    setSubmitError('')
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/contact`, {
@@ -741,7 +743,7 @@ function Contact({ profile, links }) {
         }),
       })
 
-      const data = await response.json()
+      const data = await response.json().catch(() => ({}))
 
       if (!response.ok || !data.success) {
         throw new Error(data.message || 'Unable to send message right now.')
@@ -752,6 +754,7 @@ function Contact({ profile, links }) {
       setTouched({})
     } catch (error) {
       console.error('Contact form submission failed:', error)
+      setSubmitError(error.message || 'Unable to send message right now.')
       setStatus('error')
     }
   }
@@ -871,7 +874,7 @@ function Contact({ profile, links }) {
 
             {status === 'error' && (
               <span className="field-error" style={{ marginTop: 8 }}>
-                Message could not be sent. Please try again later.
+                {submitError || 'Message could not be sent. Please try again later.'}
               </span>
             )}
 

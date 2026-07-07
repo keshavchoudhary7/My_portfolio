@@ -7,7 +7,11 @@ dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 5000
-const defaultRecipient = process.env.TO_EMAIL || process.env.SMTP_USER
+const smtpHost = process.env.SMTP_HOST?.trim() || 'smtp.gmail.com'
+const smtpPort = Number(process.env.SMTP_PORT || 587)
+const smtpUser = process.env.SMTP_USER?.trim()
+const smtpPass = process.env.SMTP_PASS?.replace(/\s+/g, '').trim()
+const defaultRecipient = process.env.TO_EMAIL?.trim() || smtpUser
 const allowedOrigins = (process.env.CLIENT_ORIGIN || '')
   .split(',')
   .map((origin) => origin.trim())
@@ -38,12 +42,12 @@ const escapeHtml = (value) =>
 
 const createTransporter = () =>
   nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: Number(process.env.SMTP_PORT) === 465,
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpPort === 465,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: smtpUser,
+      pass: smtpPass,
     },
     tls: {
       rejectUnauthorized: process.env.SMTP_REJECT_UNAUTHORIZED !== 'false',
@@ -69,7 +73,7 @@ app.post('/api/contact', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please provide a valid email address.' })
   }
 
-  if (!process.env.SMTP_USER || !process.env.SMTP_PASS || !defaultRecipient) {
+  if (!smtpUser || !smtpPass || !defaultRecipient) {
     return res.status(500).json({
       success: false,
       message: 'SMTP is not configured. Add valid email environment variables before sending mail.',
@@ -80,7 +84,7 @@ app.post('/api/contact', async (req, res) => {
     const transporter = createTransporter()
 
     await transporter.sendMail({
-      from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
+      from: `"Portfolio Contact" <${smtpUser}>`,
       to: defaultRecipient,
       replyTo: cleanEmail,
       subject: `New portfolio inquiry from ${cleanName}`,
