@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FreeMode, Keyboard, Mousewheel, Navigation as NavigationModule, Pagination } from 'swiper/modules'
+import { FreeMode, Keyboard, Navigation as NavigationModule, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -494,11 +494,10 @@ function Projects({ projects }) {
 
       <Swiper
         className="project-swiper reveal"
-        modules={[FreeMode, Keyboard, Mousewheel, NavigationModule, Pagination]}
+        modules={[FreeMode, Keyboard, NavigationModule, Pagination]}
         keyboard={{ enabled: true }}
         pagination={{ clickable: true, dynamicBullets: true }}
         navigation={{ nextEl: '.project-next', prevEl: '.project-prev' }}
-        mousewheel={{ forceToAxis: true, sensitivity: 0.75, releaseOnEdges: true }}
         freeMode={{ enabled: true, momentum: true, momentumRatio: 0.65, sticky: false }}
         grabCursor
         simulateTouch
@@ -600,10 +599,9 @@ function LearningProjects({ learningProjects }) {
 
       <Swiper
         className="project-swiper reveal"
-        modules={[FreeMode, Keyboard, Mousewheel, NavigationModule, Pagination]}
+        modules={[FreeMode, Keyboard, NavigationModule, Pagination]}
         keyboard={{ enabled: true }}
         pagination={{ clickable: true, dynamicBullets: true }}
-        mousewheel={{ forceToAxis: true, sensitivity: 0.75, releaseOnEdges: true }}
         freeMode={{ enabled: true, momentum: true, momentumRatio: 0.65, sticky: false }}
         grabCursor
         simulateTouch
