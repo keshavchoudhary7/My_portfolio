@@ -971,8 +971,6 @@ h2 {
   transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
 }
 
 .project-card::before {
