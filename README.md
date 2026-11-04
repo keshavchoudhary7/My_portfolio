@@ -30,9 +30,6 @@ npm install
 npm start
 ```
 
-Frontend local URL: `http://localhost:5173`
-Backend local URL: `http://localhost:5000`
-
 ## Deployment
 
 See `DEPLOYMENT.md` for Netlify and Render setup.
